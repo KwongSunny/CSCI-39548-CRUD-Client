@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import NewStudentView from '../views/NewStudentView';
-import { addStudentThunk } from '../../store/thunks';
+import { addStudentThunk, fetchAllCampusesThunk } from '../../store/thunks';
+import { ToastContainer, toast } from 'react-toastify';
 
 class NewStudentContainer extends Component {
   // Initialize state
@@ -37,12 +38,21 @@ class NewStudentContainer extends Component {
   handleSubmit = async event => {
     event.preventDefault();  // Prevent browser reload/refresh after submit.
 
+    if(this.getMissingFields().length > 0){
+      toast.error("The following fields cannot be empty: " + this.getMissingFields().join(', '));
+      return;
+    }
+    if(!this.props.allCampuses.find(campus => campus.id == this.state.campusId)){
+      toast.error(`This Campus Id: ${this.state.campusId} does not exist.`)
+      return;
+    }
+
     let student = {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
         campusId: this.state.campusId
     };
-    
+
     // Add new student in back-end database
     let newStudent = await this.props.addStudent(student);
 
@@ -55,6 +65,14 @@ class NewStudentContainer extends Component {
       redirectId: newStudent.id
     });
   }
+
+  getMissingFields = () => {
+    let missingFields = [];
+    if(!this.state.firstname) missingFields.push('First Name');
+    if(!this.state.lastname) missingFields.push('Last Name');
+    if(!this.state.campusId) missingFields.push('Campus Id');
+    return missingFields;
+}
 
   // Unmount when the component is being removed from the DOM:
   componentWillUnmount() {
@@ -76,8 +94,25 @@ class NewStudentContainer extends Component {
           handleChange = {this.handleChange} 
           handleSubmit={this.handleSubmit}      
         />
+        <ToastContainer
+            position="bottom-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+        />
       </div>          
     );
+  }
+}
+
+const mapState = state => {
+  return{
+    allCampuses: state.allCampuses,
   }
 }
 
@@ -86,6 +121,7 @@ class NewStudentContainer extends Component {
 // The "mapDispatch" calls the specific Thunk to dispatch its action. The "dispatch" is a function of Redux Store.
 const mapDispatch = (dispatch) => {
     return({
+        fetchAllCampuses: () => dispatch(fetchAllCampusesThunk()),
         addStudent: (student) => dispatch(addStudentThunk(student)),
     })
 }
@@ -93,4 +129,4 @@ const mapDispatch = (dispatch) => {
 // Export store-connected container by default
 // NewStudentContainer uses "connect" function to connect to Redux Store and to read values from the Store 
 // (and re-read the values when the Store State updates).
-export default connect(null, mapDispatch)(NewStudentContainer);
+export default connect(mapState, mapDispatch)(NewStudentContainer);

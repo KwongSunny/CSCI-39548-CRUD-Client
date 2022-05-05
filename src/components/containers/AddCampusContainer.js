@@ -14,8 +14,6 @@ class AddCampusContainer extends Component {
             name: "",
             id: null,
             description: "",
-            createdAt: "",
-            updatedAt: "",
             students: [],
             redirect: false,
             redirectId: null
@@ -41,8 +39,6 @@ class AddCampusContainer extends Component {
             id: this.state.id,
             address: this.state.address,
             description: this.state.description,
-            updatedAt: this.state.updatedAt,
-            createdAt: this.state.createdAt,
             students: this.state.students,
         }
 
@@ -52,8 +48,8 @@ class AddCampusContainer extends Component {
             name:"",
             id:null,
             description: "",
-            createdAt: "",
-            updatedAt: "",
+            // createdAt: "",
+            // updatedAt: "",
             students: [],
             redirect: true,
             redirectId: null
@@ -78,7 +74,7 @@ class AddCampusContainer extends Component {
   // Render All Campuses view by passing all campuses data as props to the corresponding View component
   render() {
     if(this.state.redirect){
-        //return (<Redirect to={`/campuses/${this.state.redirectId}`}/>)
+        return (<Redirect to={`/campuses`}/>)
     }
     return (
       <div>
