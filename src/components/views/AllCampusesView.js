@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const AllCampusesView = (props) => {
-  const {fetchAllCampuses, deleteCampus} = props;
+  const {fetchAllCampuses, deleteCampusAndRemoveStudents} = props;
 
   // If there is no campus, display a message.
   if (!props.allCampuses.length) {
@@ -34,9 +34,7 @@ const AllCampusesView = (props) => {
           </Link>
           <button onClick={e => {
             //Delete Campus
-            deleteCampus(campus.id);
-
-            //TODO: change school's student's campusId to none
+            deleteCampusAndRemoveStudents(campus.id);
 
             //refetch allCampuses
             fetchAllCampuses();

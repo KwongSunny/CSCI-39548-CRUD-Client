@@ -9,7 +9,7 @@ import Header from './Header';
 import { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchAllCampusesThunk, deleteCampusThunk } from "../../store/thunks";
+import { fetchAllCampusesThunk, deleteCampusThunk, editStudentThunk } from "../../store/thunks";
 import { AllCampusesView } from "../views";
 
 class AllCampusesContainer extends Component {
@@ -17,6 +17,23 @@ class AllCampusesContainer extends Component {
   componentDidMount() {
     console.log(this.props);
     this.props.fetchAllCampuses();
+  }
+
+  deleteCampusAndRemoveStudents = (id) => {
+    //Set all the student's campus to null
+    let campus = this.props.allCampuses.find(campus => campus.id === id);
+
+    campus.students.map(student => {
+      let editedStudent = {
+        id: student.id,
+        campusId: null,
+      }
+
+      this.props.editStudent(editedStudent);
+    })
+
+    //delete the campus
+    this.props.deleteCampus(id);
   }
 
   // Render All Campuses view by passing all campuses data as props to the corresponding View component
@@ -27,7 +44,7 @@ class AllCampusesContainer extends Component {
         <AllCampusesView
           fetchAllCampuses = {this.props.fetchAllCampuses}
           allCampuses={this.props.allCampuses}
-          deleteCampus = {this.props.deleteCampus}
+          deleteCampusAndRemoveStudents = {this.deleteCampusAndRemoveStudents}
         />
       </div>
     );
@@ -48,6 +65,7 @@ const mapDispatch = (dispatch) => {
   return {
     fetchAllCampuses: () => dispatch(fetchAllCampusesThunk()),
     deleteCampus: (id) => dispatch(deleteCampusThunk(id)),
+    editStudent: (student) => dispatch(editStudentThunk(student)),
   };
 };
 

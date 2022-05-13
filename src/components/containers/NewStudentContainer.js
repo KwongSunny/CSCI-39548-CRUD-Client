@@ -29,8 +29,11 @@ class NewStudentContainer extends Component {
 
   // Capture input data when it is entered
   handleChange = event => {
+    let value = event.target.value;
+    if(value === "") value = null; 
+    
     this.setState({
-      [event.target.name]: event.target.value
+        [event.target.name]: value
     });
   }
 
@@ -46,6 +49,10 @@ class NewStudentContainer extends Component {
     if(!this.isValidCampusId(this.state.campusId) && this.state.campusId){
       toast.error("This campus id does not exist: " + this.state.campusId);
       return;
+    }
+
+    if(!this.isValidGPA(this.state.gpa) && this.state.gpa){
+      return toast.error("The following GPA: " + this.state.gpa + " is not valid, please use a 4.0 GPA scale.");
     }
 
     let student = {
@@ -79,6 +86,10 @@ class NewStudentContainer extends Component {
 
   isValidCampusId = (id) =>{
     return !!this.props.allCampuses.find(campus => campus.id === parseInt(id));
+  }
+
+  isValidGPA = (gpa) => {
+    return !(gpa > 4 || gpa < 0) && !isNaN(gpa);
   }
 
   componentDidMount() {

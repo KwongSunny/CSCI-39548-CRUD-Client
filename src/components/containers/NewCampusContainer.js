@@ -2,12 +2,12 @@ import Header from './Header';
 import { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { AddCampusView } from "../views";
+import { NewCampusView } from "../views";
 import {addCampusThunk} from '../../store/thunks';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-class AddCampusContainer extends Component {
+class NewCampusContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -79,7 +79,7 @@ class AddCampusContainer extends Component {
     return (
       <div>
         <Header />
-        <AddCampusView
+        <NewCampusView
             getMissingFields = {this.getMissingFields}
             handleChange = {this.handleChange}
             handleSubmit = {this.handleSubmit}
@@ -106,4 +106,4 @@ const mapDispatch = (dispatch) => {
     })
 }
 
-export default connect(null, mapDispatch)(AddCampusContainer);
+export default connect(null, mapDispatch)(NewCampusContainer);

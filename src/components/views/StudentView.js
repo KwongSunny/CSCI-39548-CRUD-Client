@@ -14,6 +14,11 @@ const StudentView = (props) => {
   return (
     <div>
       <h1>{student.firstname + " " + student.lastname}
+      <Link to = {`/student/${student.id}/edit`}>
+        <button>
+          +
+        </button>
+      </Link>
       <Link to = {`/students/`}>
         <button 
           style = {{lineHeight:'1rem', verticalAlign:'middle'}}
@@ -21,7 +26,7 @@ const StudentView = (props) => {
             e.preventDefault();
             deleteStudent(student.id);
             history.push('/students');
-        }}>X</button>
+        }}>x</button>
       </Link>
       </h1>
       <img src = {student.imageUrl}></img>
