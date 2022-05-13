@@ -17,6 +17,7 @@ class CampusContainer extends Component {
   componentDidMount() {
     // Get campus ID from URL (API link)
     this.props.fetchCampus(this.props.match.params.id);
+    console.log(this.props.campus);
   }
 
   // Render a Campus view by passing campus data as props to the corresponding View component

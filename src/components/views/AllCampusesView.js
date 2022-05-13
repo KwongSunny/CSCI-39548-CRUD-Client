@@ -34,14 +34,14 @@ const AllCampusesView = (props) => {
           </Link>
           <button onClick={e => {
             //Delete Campus
-            deleteCampus(campus.id)
+            deleteCampus(campus.id);
 
             //TODO: change school's student's campusId to none
 
-            
             //refetch allCampuses
             fetchAllCampuses();
           }}>X</button>
+          <br/><img src = {campus.imageUrl + "?random=" + campus.id}></img>
           <h4>campus id: {campus.id}</h4>
           <p>{campus.address}</p>
           <p>{campus.description}</p>

@@ -21,9 +21,9 @@ class NewStudentContainer extends Component {
     this.state = {
       firstname: "", 
       lastname: "", 
+      email: "",
       campusId: null, 
-      redirect: false, 
-      redirectId: null
+      gpa: null,
     };
   }
 
@@ -42,15 +42,18 @@ class NewStudentContainer extends Component {
       toast.error("The following fields cannot be empty: " + this.getMissingFields().join(', '));
       return;
     }
-    if(!this.props.allCampuses.find(campus => campus.id == this.state.campusId)){
-      toast.error(`This Campus Id: ${this.state.campusId} does not exist.`)
+
+    if(!this.isValidCampusId(this.state.campusId) && this.state.campusId){
+      toast.error("This campus id does not exist: " + this.state.campusId);
       return;
     }
 
     let student = {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
-        campusId: this.state.campusId
+        email: this.state.email,
+        campusId: this.state.campusId,
+        gpa: this.state.gpa,
     };
 
     // Add new student in back-end database
@@ -60,9 +63,9 @@ class NewStudentContainer extends Component {
     this.setState({
       firstname: "", 
       lastname: "", 
+      email: "",
       campusId: null, 
-      redirect: true, 
-      redirectId: newStudent.id
+      gpa: null,
     });
   }
 
@@ -70,9 +73,17 @@ class NewStudentContainer extends Component {
     let missingFields = [];
     if(!this.state.firstname) missingFields.push('First Name');
     if(!this.state.lastname) missingFields.push('Last Name');
-    if(!this.state.campusId) missingFields.push('Campus Id');
+    if(!this.state.email) missingFields.push('Email');
     return missingFields;
-}
+  }
+
+  isValidCampusId = (id) =>{
+    return !!this.props.allCampuses.find(campus => campus.id === parseInt(id));
+  }
+
+  componentDidMount() {
+    console.log(this.props.allCampuses)
+  }
 
   // Unmount when the component is being removed from the DOM:
   componentWillUnmount() {
