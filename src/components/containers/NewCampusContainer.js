@@ -6,6 +6,7 @@ import { NewCampusView } from "../views";
 import {addCampusThunk} from '../../store/thunks';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class NewCampusContainer extends Component {
     constructor(props){

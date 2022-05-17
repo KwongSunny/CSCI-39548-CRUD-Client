@@ -13,6 +13,7 @@ import { Redirect } from 'react-router-dom';
 import NewStudentView from '../views/NewStudentView';
 import { addStudentThunk, fetchAllCampusesThunk } from '../../store/thunks';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class NewStudentContainer extends Component {
   // Initialize state
