@@ -25,6 +25,7 @@ class NewStudentContainer extends Component {
       email: "",
       campusId: null, 
       gpa: null,
+      redirect: false,
     };
   }
 
@@ -74,6 +75,7 @@ class NewStudentContainer extends Component {
       email: "",
       campusId: null, 
       gpa: null,
+      redirect: true,
     });
   }
 
@@ -106,7 +108,7 @@ class NewStudentContainer extends Component {
   render() {
     // Redirect to new student's page after submit
     if(this.state.redirect) {
-      return (<Redirect to={`/student/${this.state.redirectId}`}/>)
+      return (<Redirect to={`/students`}/>)
     }
 
     // Display the input form via the corresponding View component
