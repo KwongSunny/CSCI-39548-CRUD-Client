@@ -8,7 +8,7 @@ If needed, it also defines the component's "connect" function.
 import Header from './Header';
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchCampusThunk } from "../../store/thunks";
+import { fetchCampusThunk, editStudentThunk } from "../../store/thunks";
 
 import { CampusView } from "../views";
 
@@ -17,7 +17,24 @@ class CampusContainer extends Component {
   componentDidMount() {
     // Get campus ID from URL (API link)
     this.props.fetchCampus(this.props.match.params.id);
-    console.log(this.props.campus);
+  }
+
+  addStudent = async id => {
+    let student = {
+      id: id,
+      campusId: this.props.campus.id,
+    }
+    this.props.editStudent(student);
+    this.props.fetchCampus(this.props.match.params.id); //update the store
+  }
+
+  removeStudent = async id => {
+    let student = {
+      id: id,
+      campusId: null
+    }
+    this.props.editStudent(student);
+    this.props.fetchCampus(this.props.match.params.id); //update the store
   }
 
   // Render a Campus view by passing campus data as props to the corresponding View component
@@ -25,7 +42,7 @@ class CampusContainer extends Component {
     return (
       <div>
         <Header />
-        <CampusView campus={this.props.campus} />
+        <CampusView campus={this.props.campus} removeStudent = {this.removeStudent} addStudent = {this.addStudent} allStudents = {this.props.allStudents}/>
       </div>
     );
   }
@@ -37,6 +54,7 @@ class CampusContainer extends Component {
 const mapState = (state) => {
   return {
     campus: state.campus,  // Get the State object from Reducer "campus"
+    allStudents: state.allStudents,
   };
 };
 // 2. The "mapDispatch" argument is used to dispatch Action (Redux Thunk) to Redux Store.
@@ -44,6 +62,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchCampus: (id) => dispatch(fetchCampusThunk(id)),
+    editStudent: (student) => dispatch(editStudentThunk(student))
   };
 };
 

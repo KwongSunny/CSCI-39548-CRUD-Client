@@ -27,8 +27,6 @@ const useStyles = makeStyles(theme => ({
   },
   campusLink:{
     display: 'inline-block',
-    textDecoration:'none', 
-    color: '#111111'
   }
 
 }));

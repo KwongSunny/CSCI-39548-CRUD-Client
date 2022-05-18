@@ -35,6 +35,8 @@ class NewCampusContainer extends Component {
             return;
         }
 
+        if(!this.isValidId(this.state.id)) return toast.error("Only integer values can be used for campus Id.")
+
         let campus = {
             name: this.state.name,
             id: this.state.id,
@@ -55,6 +57,10 @@ class NewCampusContainer extends Component {
             redirect: true,
             redirectId: null
         })
+    }
+
+    isValidId = id => {
+        return !isNaN(id)
     }
 
     getMissingFields = () => {

@@ -9,28 +9,21 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   student:{
-    backgroundColor: '#DFD8DC', 
-    display: 'inline-block', 
+    backgroundColor: '#DFD8DC',
     minWidth: '300px',
-    height: '98%', 
-    float: 'left', 
     border: 'inset'
     
   }, 
   studentContainer:{
-    display: 'flex',
     height: '500px',
     overflowX: 'auto', 
-    whiteSpace: 'nowrap'
+    width:'400px',
+    margin: 'auto',
+    textAlign: 'center'
   },
   studentLink:{
     display: 'inline-block',
-    textDecoration:'none', 
-    color: '#111111'
-
   }
-  
-
 }));
 
 
@@ -62,7 +55,7 @@ const AllStudentsView = (props) => {
                   <h2>{name}</h2>
                 </Link>
                 <button onClick={() => deleteStudent(student.id)}>Delete</button>
-                <hr/>
+                <br /><img src = {student.imageUrl + "?random=" + student.id}></img>
               </div>
             );
           }

@@ -23,7 +23,7 @@ class NewStudentContainer extends Component {
       firstname: "", 
       lastname: "", 
       email: "",
-      campusId: null, 
+      campusId: this.props.location.state.campusId, 
       gpa: null,
       redirect: false,
     };
@@ -96,7 +96,6 @@ class NewStudentContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.allCampuses)
   }
 
   // Unmount when the component is being removed from the DOM:
@@ -117,7 +116,8 @@ class NewStudentContainer extends Component {
         <Header />
         <NewStudentView 
           handleChange = {this.handleChange} 
-          handleSubmit={this.handleSubmit}      
+          handleSubmit={this.handleSubmit}
+          campusId = {this.state.campusId}      
         />
         <ToastContainer
             position="bottom-left"
