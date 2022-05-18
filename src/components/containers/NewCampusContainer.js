@@ -36,6 +36,7 @@ class NewCampusContainer extends Component {
         }
 
         if(!this.isValidId(this.state.id)) return toast.error("Only integer values can be used for campus Id.")
+        if(!this.isValidCampusId(this.state.id)) return toast.error("This Campus Id already exists.")
 
         let campus = {
             name: this.state.name,
@@ -60,7 +61,11 @@ class NewCampusContainer extends Component {
     }
 
     isValidId = id => {
-        return !isNaN(id)
+        return !isNaN(id);
+    }
+
+    isValidCampusId = id => {
+        return !this.props.allCampuses.find(campus => campus.id == id)
     }
 
     getMissingFields = () => {
@@ -70,6 +75,10 @@ class NewCampusContainer extends Component {
         if(!this.state.address) missingFields.push('address');
         if(!this.state.description) missingFields.push('description');
         return missingFields;
+    }
+
+    componentDidMount(){
+        console.log('allCampuses: ', this.props.allCampuses)
     }
 
   // Get all campuses data from back-end database
@@ -107,10 +116,16 @@ class NewCampusContainer extends Component {
   }
 }
 
+const mapState = (state) => {
+    return {
+        allCampuses: state.allCampuses
+    };
+}
+
 const mapDispatch = (dispatch) => {
     return({
         addCampus: (campus) => dispatch(addCampusThunk(campus)),
     })
 }
 
-export default connect(null, mapDispatch)(NewCampusContainer);
+export default connect(mapState, mapDispatch)(NewCampusContainer);
