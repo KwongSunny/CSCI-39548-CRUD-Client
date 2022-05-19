@@ -23,7 +23,7 @@ class NewStudentContainer extends Component {
       firstname: "", 
       lastname: "", 
       email: "",
-      campusId: this.props.location.state.campusId, 
+      campusId: this.props.location.state.campusId?this.props.location.state.campusId:null, 
       gpa: null,
       redirect: false,
     };
